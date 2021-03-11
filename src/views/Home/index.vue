@@ -1,18 +1,12 @@
 <template>
-  <h1 class="text">我是首页</h1>
-  vuex:{{ $store.state.num }}
-  <button @click="add">++</button>
-  {{ state.name }}
-  {{ state.num }}
-  <div class="login">
-    <van-button type="primary" @click="goLogin">跳转登录页</van-button>
-  </div>
+  <a-button type="primary" @click="goLogin">跳转登录页</a-button>
 </template>
 <script lang="ts" setup="props">
 import { reactive } from "vue";
 import { useRouter } from "vue-router";
 import { useStore } from "vuex";
 import { article } from "@/api/index";
+
 const router = useRouter();
 const store = useStore();
 const goLogin = () => {
@@ -32,7 +26,7 @@ const state = reactive({
   color: "#ccc",
 });
 </script>
-<style >
+<style>
 .text {
   color: v-bind("state.color");
 }

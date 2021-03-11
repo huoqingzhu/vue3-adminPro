@@ -5,20 +5,36 @@ const routes: Array<RouteRecordRaw> = [
     name: "Home",
     meta: {
       title: "首页",
-      keepAlive: true
+      keepAlive: true,
+      iocn: "AppstoreOutlined",
     },
-    component: () => import("../views/Home/index.vue"),
+    component: () => import("../views/index.vue"),
+    children:[
+      {
+        path: "/home",
+        name: "home",
+        meta: {
+          title: "登录",
+          keepAlive: true,
+          iocn: "AppstoreOutlined",
+        },
+        component: () => import("../views/Home/index.vue"),
+      }
+    ]
   },
   {
     path: "/login",
     name: "Login",
     meta: {
       title: "登录",
-      keepAlive: true
+      keepAlive: true,
+      iocn: "AppstoreOutlined",
     },
     component: () => import("../views/Login/index.vue"),
   },
 ];
+localStorage.setItem("router",JSON.stringify(routes[0].children));
+document
 const router = createRouter({
   history: createWebHashHistory(),
   routes
