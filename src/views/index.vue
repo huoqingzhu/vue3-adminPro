@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="Tabbar">
-      <Navigation></Navigation>
+      <!-- <Navigation></Navigation> -->
     </div>
     <div class="home">
       <RouterView />

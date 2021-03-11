@@ -1,5 +1,15 @@
 <template>
-  <div id="map"></div>
+  <div class="login">
+    <div class="frame">
+      <div class="center logo">
+        <img src="../../assets/favicon.png" alt="" />
+      </div>
+      <input type="text" placeholder="请输入用户名" />
+      <input type="password" placeholder="请输入密码" />
+      <button class="button" @click="$router.push('/')">登录</button>
+    </div>
+    <div id="map"></div>
+  </div>
 </template>
 <script lang="ts">
 // 引入tree.js
@@ -22,13 +32,65 @@ export default defineComponent({
       init();
     });
   },
+  // 离开销毁
+  beforeUnmount() {
+    let dome: any = document.getElementById("map");
+    dome.removeChild(dome.children[0]);
+    console.log("我销毁了");
+  },
 });
 </script>
-<style scoped>
-#map {
+
+<style lang="less" scoped>
+.login {
+  position: relative;
   width: 100vw;
   height: 100vh;
+  margin: 0 auto;
+}
+#map {
+  width: 100%;
+  height: 100%;
   background-color: #000;
   background-image: radial-gradient(circle, rgb(3, 3, 63), rgb(1, 6, 24), #000);
+}
+.frame {
+  position: absolute;
+  width: 30vw;
+  height: 30vh;
+  margin-left: 50%;
+  margin-top: 50vh;
+  transform: translate(-50%, -65%); /* 50%为自身尺寸的一半 */
+  color: #fff;
+  // border: 1px solid pink;
+  input {
+    display: block;
+    background-color: transparent;
+    border: none;
+    border-bottom: 0.2vh solid #00ffd1;
+    margin-top: 3vh;
+    width: 100%;
+    color: #fff;
+  }
+  input::-webkit-input-placeholder {
+    /* WebKit browsers */
+
+    color: #fff;
+  }
+  .button {
+    margin-top: 6vh;
+    width: 100%;
+    background-color: #52ad9c;
+    height: 4vh;
+  }
+  input:focus {
+    outline: none;
+  }
+}
+.logo {
+  height: 30%;
+  img {
+    width: 5vw;
+  }
 }
 </style>

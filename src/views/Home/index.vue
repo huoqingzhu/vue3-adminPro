@@ -1,5 +1,5 @@
 <template>
-  <a-button type="primary" @click="goLogin">跳转登录页</a-button>
+  <h1>虚位以待</h1>
 </template>
 <script lang="ts" setup="props">
 import { reactive } from "vue";

@@ -3,6 +3,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: "/",
     name: "Home",
+    redirect:"/home",
     meta: {
       title: "首页",
       keepAlive: true,
