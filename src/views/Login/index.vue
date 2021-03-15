@@ -6,7 +6,7 @@
       </div>
       <input type="text" placeholder="请输入用户名" />
       <input type="password" placeholder="请输入密码" />
-      <button class="button" @click="$router.push('/')">登录</button>
+      <div class="button center" @click="$router.push('/dashboard/analysis')">登录</div>
     </div>
     <div id="map"></div>
   </div>
@@ -17,7 +17,8 @@ import Map from "../../utils/map";
 import { defineComponent, onMounted } from "vue";
 
 export default defineComponent({
-  name: "Dome1",
+  name: "login",
+
   setup() {
     // 初始化 Map
     function init() {
@@ -31,12 +32,6 @@ export default defineComponent({
     onMounted(() => {
       init();
     });
-  },
-  // 离开销毁
-  beforeUnmount() {
-    let dome: any = document.getElementById("map");
-    dome.removeChild(dome.children[0]);
-    console.log("我销毁了");
   },
 });
 </script>
@@ -53,6 +48,7 @@ export default defineComponent({
   height: 100%;
   background-color: #000;
   background-image: radial-gradient(circle, rgb(3, 3, 63), rgb(1, 6, 24), #000);
+  // background: url("https://static.zhihu.com/heifetz/assets/sign_bg.db29b0fb.png");
 }
 .frame {
   position: absolute;

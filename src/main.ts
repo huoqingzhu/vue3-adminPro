@@ -4,10 +4,11 @@ import router from "./router";
 import store from "./store";
 import ant from "./utils/ant";
 import "@/utils/permission"
-// import 'lib-flexible/flexible'
-// import 'vant/lib/index.css'; // 全局引入样式
-import "./utils/rem"
+
+
 import "@/style/index.less"
+
+
  // 全局引入样式
 
 createApp(App)
@@ -15,3 +16,4 @@ createApp(App)
 .use(store)
 .use(ant)
 .mount('#app')
+

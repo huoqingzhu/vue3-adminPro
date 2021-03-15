@@ -1,23 +1,28 @@
 import {
   // Input,
   Button,
-  // Menu,
+  Menu,
+  Affix,
+  Divider,
   // Tabs,
   // Spin,
-  // Card,
+  // Row,
+  // Col,
+  Card,
+  // Layout,
+  // Breadcrumb
   // Popover,
   // Table,
   // Statistic,
   // DatePicker,
-  // Dropdown,
+  Dropdown,
+  Drawer,
   // Form,
   // Select,
   // Modal,
   // Popconfirm
 } from "ant-design-vue";
-// import Cards from "@/components/component/Card.vue"
-// import Police from "@/components/component/Police.vue"
-// import Polices from "@/components/component/Polices.vue"
+
 const ant = {
   install(Vue: {
     component: (arg0: string, arg1: any) => void;
@@ -28,16 +33,23 @@ const ant = {
     // Vue.component(Card.name, Card);
     // Vue.component(Popover.name, Popover);
     // Vue.component(Table.name, Table);
-    // Vue.component(Dropdown.name, Dropdown);
+    Vue.component(Dropdown.name, Dropdown);
     // Vue.component(Spin.name, Spin);
     // Vue.component(Statistic.name, Statistic);
     // Vue.component(Modal.name,Modal)
     // Vue.use(Popconfirm)
     // Vue.use(DatePicker)
     // Vue.use(Select)
-    // Vue.use(Menu)
-    // Vue.use(Form)
-    // Vue.use(Tabs);
+    // Vue.use(Row)
+    // Vue.use(Col)
+    Vue.use(Divider)
+    Vue.use(Menu)
+    Vue.use(Drawer)
+    Vue.use(Affix)
+    // Vue.use(Layout)
+    Vue.use(Card)
+    // Vue.use(Breadcrumb)
+
   }
 };
 export default ant;
