@@ -1,3 +1,3 @@
 <template>
-  <h1>from</h1>
+  <h1>表单</h1>
 </template>

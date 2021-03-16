@@ -27,7 +27,7 @@ export default defineComponent({
   font-size: 18px;
   align-items: center;
   .imgLogo {
-    width: 2vw;
+    width: 32px;
   }
 }
 </style>

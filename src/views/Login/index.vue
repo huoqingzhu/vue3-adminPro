@@ -6,32 +6,34 @@
       </div>
       <input type="text" placeholder="请输入用户名" />
       <input type="password" placeholder="请输入密码" />
-      <div class="button center" @click="$router.push('/dashboard/analysis')">登录</div>
+      <div class="button center" @click="goMain">登录</div>
     </div>
     <div id="map"></div>
   </div>
 </template>
 <script lang="ts">
-// 引入tree.js
 import Map from "../../utils/map";
 import { defineComponent, onMounted } from "vue";
-
+import { useRouter } from "vue-router";
 export default defineComponent({
   name: "login",
-
   setup() {
     // 初始化 Map
     function init() {
       let container: any = document.getElementById("map");
       let map = new Map(container, true, true, true);
-      //初始化map
-      map.camera.position.set(0, 0, 1000); //设置相机位置
-      map.camera.lookAt(map.scene.position); //设置相机方向(指向的场景对象)
       map.init();
     }
+    const router = useRouter();
+    const goMain = () => {
+      router.push("/dashboard/analysis");
+      let node: any = document.getElementById("body");
+      node.style.backgroundColor = "#fff";
+    };
     onMounted(() => {
       init();
     });
+    return { goMain };
   },
 });
 </script>

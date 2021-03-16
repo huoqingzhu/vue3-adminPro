@@ -38,6 +38,11 @@ import { defineComponent, ref } from "vue";
 import { useRouter } from "vue-router";
 import { MailOutlined, AppstoreOutlined, SettingOutlined } from "@ant-design/icons-vue";
 export default defineComponent({
+  components: {
+    MailOutlined,
+    AppstoreOutlined,
+    SettingOutlined,
+  },
   props: {
     mode: {
       type: String,
@@ -60,11 +65,6 @@ export default defineComponent({
       data,
       change,
     };
-  },
-  components: {
-    MailOutlined,
-    AppstoreOutlined,
-    SettingOutlined,
   },
 });
 </script>

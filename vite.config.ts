@@ -1,23 +1,28 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import styleImport from 'vite-plugin-style-import';
-
+import visualizer from 'rollup-plugin-visualizer';
 import path from 'path';
+// 打包插件
+const plugins=[ 
+  vue(),
+  styleImport({
+    libs: [{
+      libraryName: 'ant-design-vue',
+      esModule: true,
+      resolveStyle: (name) => {
+        return `ant-design-vue/es/${name}/style/css`;
+      },
+    }]
+  })]
+  process.env.NODE_ENV?plugins.push(visualizer({
+    open: true,
+    gzipSize: true,
+    brotliSize: true,
+  })):null//生产环境配置打包分析插件
 
-// https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [
-    vue(),
-    styleImport({
-      libs: [{
-        libraryName: 'ant-design-vue',
-        esModule: true,
-        resolveStyle: (name) => {
-          return `ant-design-vue/es/${name}/style/css`;
-        },
-      }]
-    })
-],
+  plugins,
   base:"./",//打包路径
   resolve: {
     alias:{
@@ -33,5 +38,4 @@ export default defineConfig({
     },
     cors:true
   }
-
 })
