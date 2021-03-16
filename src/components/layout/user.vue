@@ -9,7 +9,8 @@
           <a href="javascript:;">切换用户</a>
         </a-menu-item>
         <a-menu-item>
-          <a href="javascript:;">个人中心</a>
+          <!-- <a href="http://www.w3school.com.cn/">Visit W3School</a> -->
+          <a target="_blank" href="https://github.com/huoqingzhu/Admin-pro">项目地址</a>
         </a-menu-item>
         <a-menu-item>
           <a href="javascript:;" @click="$router.push('/login')">退出登陆</a>
@@ -18,7 +19,14 @@
     </template>
   </a-dropdown>
 </template>
-<script lang="ts" setup="props">
+<script lang="ts">
+import { defineComponent } from "vue";
 import { GithubOutlined } from "@ant-design/icons-vue";
-const userOut = () => {};
+import { Dropdown } from "ant-design-vue";
+export default defineComponent({
+  components: {
+    GithubOutlined,
+    [Dropdown.name]: Dropdown,
+  },
+});
 </script>
