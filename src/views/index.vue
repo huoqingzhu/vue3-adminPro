@@ -18,7 +18,11 @@
     </header>
     <nav class="nav" v-if="nav.show">
       <div class="logo" style="height: 60px"><Logo :color="nav.logo" /></div>
-      <Meau :mode="config.mode" :theme="config.theme" />
+      <Meau
+        :mode="config.mode"
+        :theme="config.theme"
+        :inline-collapsed="config.collapsed"
+      />
     </nav>
     <main class="main">
       <a-affix
@@ -136,6 +140,7 @@ export default defineComponent({
       theme: "dark", //主题颜色
       mode: "inline", //侧边栏模式
       pc: true, //设备情况
+      collapsed: false, //伸缩
     });
     const visible = ref<boolean>(false);
     // 观察主题的变化
@@ -163,7 +168,7 @@ export default defineComponent({
     });
     const header = reactive({
       width: "calc(100vw - 200px)",
-      height: "1.22667rem",
+      height: "46px",
       ml: "200px",
       bg: "#fff",
       show: false,
@@ -171,7 +176,7 @@ export default defineComponent({
     const nav = reactive({
       height: "100vh",
       width: "200px",
-      mt: "-1.22667rem",
+      mt: "-46px",
       logo: "#fff",
       show: true,
       mode: "nav",
@@ -249,7 +254,7 @@ export default defineComponent({
 .nav {
   position: absolute;
   height: 100vh;
-  margin-top: -1.22667rem;
+  margin-top: -46px;
   width: v-bind("nav.width");
   background-color: v-bind("nav.bg");
 }
@@ -283,7 +288,7 @@ export default defineComponent({
 }
 .main {
   width: v-bind("header.width");
-  height: calc(100% - 1.22667rem);
+  height: calc(100% - 46px);
   margin-left: v-bind("header.ml");
   position: relative;
   .affix {

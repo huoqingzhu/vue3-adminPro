@@ -77,12 +77,15 @@ export default defineComponent({
       myChart = echarts.init(charts.value);
       myChart.setOption(props.option);
     });
-    const init = (option: any) => {
+    const resize = (option: any) => {
       myChart.resize();
     };
-    window.addEventListener("resize", init);
+    const init = () => {
+      myChart.setOption(props.option);
+    };
+    window.addEventListener("resize", resize);
     onUnmounted(() => {
-      window.removeEventListener("resize", init);
+      window.removeEventListener("resize", resize);
     });
     return {
       charts,
