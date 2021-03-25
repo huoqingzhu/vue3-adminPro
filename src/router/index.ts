@@ -61,6 +61,16 @@ const routes: Array<RouteRecordRaw> = [
           iocn: "AppstoreOutlined",
         },
         component: () => import("../views/Table/tableList.vue"),
+      },
+      {
+        path: "/3D",
+        name: "3D模块",
+        meta: {
+          title: "3D模块",
+          keepAlive: true,
+          iocn: "AppstoreOutlined",
+        },
+        component: () => import("../views/3D/index.vue"),
       }
     ]
   },

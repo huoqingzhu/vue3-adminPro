@@ -3,7 +3,7 @@
     <!-- <div>X:{{ offsetX }};Y:{{ offsetY }}</div> -->
     <div class="flex" style="height: 100%">
       <div class="side">
-        <h1>图标</h1>
+        <h1>图表</h1>
         <div v-for="item in typeChart" :key="item.name" class="name">
           {{ item.name }}
           <a-button type="primary" @click="change(item)">新增</a-button>
