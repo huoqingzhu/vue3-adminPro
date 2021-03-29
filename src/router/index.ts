@@ -9,7 +9,7 @@ const routes: Array<RouteRecordRaw> = [
       keepAlive: true,
       iocn: "AppstoreOutlined",
     },
-    component: () => import("../views/index.vue"),
+    component: () => import("../views/Layout/index.vue"),
     children:[
       {
         path: "/dashboard",

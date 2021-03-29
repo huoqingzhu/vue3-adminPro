@@ -9,6 +9,10 @@ const whiteList = ["/login", "/register"]; // 白名单列表
 router.beforeEach(async (to, from, next) => {
   // 设置页面标题
   document.title = to.meta.title;
+  console.log(`要去哪${to.path}`);
+  console.time("路由跳转时间")
+  console.log(store)
+  store.commit("changeLoading",true)
   const hasToken = 1===1;
   if (hasToken) {
     if (to.path === "/login") {
@@ -20,15 +24,15 @@ router.beforeEach(async (to, from, next) => {
         next();
       }else {
         try {
-           next();
+          next();
           } catch (error) {
              // 清除用户信息，退出登录，跳转登录页
             store.commit("user/LOGOUT");
           next(`/login?redirect=${to.path}`);
-         }
         }
-     }
-   } else {
+      }
+    }
+  } else {
     /* has no token */
     if (whiteList.indexOf(to.path) !== -1) {
       // 白名单中，无需验证
@@ -38,4 +42,10 @@ router.beforeEach(async (to, from, next) => {
       next(`/login?redirect=${to.path}`);
     }
   }
+});
+
+router.afterEach((to, from) => {
+  console.log(`到达${to.path}`);
+  console.timeEnd("路由跳转时间")
+  store.commit("changeLoading",false)
 });

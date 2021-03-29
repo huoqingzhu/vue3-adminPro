@@ -2,10 +2,13 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import styleImport from 'vite-plugin-style-import';
 import visualizer from 'rollup-plugin-visualizer';
+import { terser } from "rollup-plugin-terser";
+
 import path from 'path';
 // 打包插件
 const plugins=[ 
   vue(),
+  
   styleImport({
     libs: [{
       libraryName: 'ant-design-vue',
@@ -15,12 +18,17 @@ const plugins=[
       },
     }]
   })]
-  process.env.NODE_ENV?plugins.push(visualizer({
+ //生产环境配置打包分析插件
+if(process.env.NODE_ENV){
+  plugins.push(visualizer({
     open: true,
     gzipSize: true,
     brotliSize: true,
-  })):null//生产环境配置打包分析插件
+  }))
+  // 开启智能压缩 删除console
+  plugins.push(terser({ compress: { drop_console: true } }))
 
+}
 export default defineConfig({
   plugins,
   base:"./",//打包路径
@@ -37,5 +45,9 @@ export default defineConfig({
       '/api': 'http://123.56.85.24:5000'//代理网址
     },
     cors:true
+  },
+  build:{
+    // target:"esnext",//
+    brotliSize:false,
   }
 })

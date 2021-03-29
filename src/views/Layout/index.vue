@@ -18,13 +18,10 @@
     </header>
     <nav class="nav" v-if="nav.show">
       <div class="logo" style="height: 60px"><Logo :color="nav.logo" /></div>
-      <Meau
-        :mode="config.mode"
-        :theme="config.theme"
-        :inline-collapsed="config.collapsed"
-      />
+      <Meau :mode="config.mode" :theme="config.theme" />
     </nav>
     <main class="main">
+      <Loading v-show="$store.state.isLoading" />
       <a-affix
         v-if="config.pc"
         :style="{
@@ -79,7 +76,7 @@
 
       <div v-if="!config.pc" class="v12">
         <div class="logo" style="height: 60px"><Logo :color="nav.logo" /></div>
-        <Meau :mode="config.mode" :theme="config.theme" />
+        <Meau mode="inline" :theme="config.theme" />
       </div>
     </a-drawer>
   </section>
@@ -94,15 +91,17 @@ import {
   watch,
   ref,
   computed,
+  toRaw,
 } from "vue";
 import { MenuUnfoldOutlined, SettingOutlined } from "@ant-design/icons-vue";
 import Example from "@/components/layout/examples.vue";
 import Logo from "@/components/layout/logo.vue";
-import setRem from "../utils/rem";
+import setRem from "../../utils/rem";
 import Meau from "@/components/layout/meau.vue";
 import User from "@/components/layout/user.vue";
 import Table from "@/components/layout/table.vue";
 import { Affix, Drawer } from "ant-design-vue";
+import Loading from "@/components/Loading/index.vue";
 export default defineComponent({
   components: {
     Example,
@@ -110,6 +109,7 @@ export default defineComponent({
     Meau,
     User,
     Table,
+    Loading,
     MenuUnfoldOutlined,
     SettingOutlined,
     [Affix.name]: Affix,
@@ -122,11 +122,7 @@ export default defineComponent({
       if (document.body.clientWidth < 1025) {
         Mobile();
       } else {
-        if (nav.mode == "nav") {
-          changeLayout("nav");
-        } else {
-          changeLayout("header");
-        }
+        changeLayout(config.mode);
       }
     };
     onUnmounted(() => {
@@ -134,28 +130,37 @@ export default defineComponent({
     });
     onMounted(() => {
       detection();
+      // 观察主题的变化
+      watch(
+        () => config.mode,
+        (a, b) => {
+          changeLayout(a);
+        },
+        { immediate: true }
+      );
+      watch(
+        () => config.theme,
+        (a, b) => {
+          changeColor(a);
+        },
+        { immediate: true }
+      );
     });
     window.addEventListener("resize", detection);
-    const config = reactive({
-      theme: "dark", //主题颜色
-      mode: "inline", //侧边栏模式
-      pc: true, //设备情况
-      collapsed: false, //伸缩
-    });
+    let Storage;
+    if (localStorage.getItem("confing")) {
+      Storage = JSON.parse(localStorage.getItem("confing") as string);
+    } else {
+      Storage = {
+        theme: "light", //主题颜色
+        mode: "horizontal", //侧边栏模式  horizontal inline
+        pc: true, //设备情况
+        collapsed: false, //伸缩
+      };
+    }
+    const config = reactive(Storage);
     const visible = ref<boolean>(false);
-    // 观察主题的变化
-    watch(
-      () => config.mode,
-      (a, b) => {
-        changeLayout(a);
-      }
-    );
-    watch(
-      () => config.theme,
-      (a, b) => {
-        changeColor(a);
-      }
-    );
+
     const state = ref<number>(1);
     const change = (value: number) => {
       state.value = value;
@@ -207,7 +212,7 @@ export default defineComponent({
         header.show = false;
         nav.mode = "nav";
       }
-      // detection();
+      localStorage.setItem("confing", JSON.stringify(toRaw(config)));
     };
     /**
      * 切换颜色
@@ -224,22 +229,17 @@ export default defineComponent({
           header.bg = "#041527";
         }
       }
+      localStorage.setItem("confing", JSON.stringify(toRaw(config)));
     };
     // 切换移动端
     const Mobile = () => {
-      // header.show = false;
+      header.show = false;
       config.pc = false;
       nav.logo = "#1890ff";
-      // nav.show = false;
-      header.height = "40px";
-      if (nav.mode == "nav") {
-        header.width = "100vw";
-        header.ml = "0";
-        nav.width = "80vw";
-        header.bg = "#fff";
-        nav.show = false;
-      }
+      header.height = "46px";
+      nav.show = false;
     };
+
     return { config, visible, state, change, theme, mode, header, nav };
   },
 });
@@ -261,7 +261,7 @@ export default defineComponent({
 .v12 {
   width: 100%;
   height: 100%;
-  background-color: #041527;
+  background-color: v-bind("nav.bg");
 }
 .logo {
   height: 100%;
@@ -292,7 +292,7 @@ export default defineComponent({
   margin-left: v-bind("header.ml");
   position: relative;
   .affix {
-    width: 40px;
+    width: 46px;
     height: 36px;
     border-radius: 10px;
     background-color: #1890ff;

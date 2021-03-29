@@ -1,12 +1,12 @@
 import { createStore } from "vuex";
 export default createStore({
   state: {
-    listData:{1:10},
-    num:10
+    num:10,
+    isLoading:false,
   },
   mutations: {
-    setData(state,value){
-        state.listData=value
+    changeLoading(state,value){
+      state.isLoading=value;
     },
     addNum(state){
       state.num=state.num+10

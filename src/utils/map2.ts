@@ -1,12 +1,6 @@
 
 import {WebGLRenderer,Scene,DirectionalLight,SpriteMaterial,Vector3,Camera,Object3D,Raycaster,Vector2,OrthographicCamera,PerspectiveCamera,AmbientLight,Group,Sprite,Matrix4,AxesHelper} from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
-const SEPARATION = 100; //距离
-const AMOUNTX = 60; //x横坐标
-const AMOUNTY = 60; //y坐标
-let particles:any; //粒子数组
-let particle:any; //粒子
-let count = 0; //控制粒子变化的变量
 class Three {
   public camera:Camera//相机
   public scene:Scene=new Scene();//场景
@@ -17,7 +11,7 @@ class Three {
   public raycaster = new Raycaster();//用来选择对象
   public mouse = new Vector2();//鼠标在场景中的位置
   public seleteName:string=''//鼠标选中的名字
-  public isParticle:boolean=false;
+
   /**
    * 
    * @param container dome 元素
@@ -25,9 +19,8 @@ class Three {
    * @param Light true预先设置光照 
    * @param lizi  是否开启粒子效果
    */
-  constructor(container:HTMLElement,camera:boolean=true,Light:boolean=true,isParticle:boolean=false) {
+  constructor(container:HTMLElement,camera:boolean=true,) {
     this.container = container
-    this.isParticle=isParticle
     /**
      * 相机设置
      */
@@ -56,95 +49,41 @@ class Three {
     this.renderer.setSize(width, height); //设置渲染区域尺寸
     // 初始化控制系统
     this.controls = new OrbitControls(this.camera, this.renderer.domElement)
+    this.controls.enableDamping = true;
+
     // 缩放范围
     // 是否预先设置光照
-    if(Light){
-      let ambient = new AmbientLight(0xffffff);
-      this.scene.add(ambient); //环境光对象添加到scene场景中
-    }
-    if(isParticle){
-      this.lizi()
-    }
+    let ambient = new AmbientLight(0xffffff);
+    this.scene.add(ambient); //环境光对象添加到scene场景中
     // 0, -400, 500
     // this.camera.position.set(0, -1300,900); //设置相机位置
     this.camera.position.set(0, 0, 2300); //设置相机位置
     this.camera.lookAt(this.scene.position); //设置相机方向(指向的场景对象)
   }
+  
+
   // 初始化
   init = () => {
     //点光源
     this.renderer.setClearColor(0xEEEEEE, 0.0);//设置背景颜色(0x4169E1, 1)
     this.container.appendChild(this.renderer.domElement); //body元素中插入canvas对象
     this.createControls()//监听窗口变化
-    this.render()
-    this.controls.minZoom = 0;
-    this.controls.maxZoom = 0;
-    // 上下旋转范围
-  if(this.isParticle){
+    // this.render()
+    // this.controls.addEventListener('change', this.render)
     this.controls.minPolarAngle = 0;
-    this.controls.maxPolarAngle = Math.PI/3;
+    this.controls.maxPolarAngle = Math.PI/2;
     this.controls.autoRotate=true
     this.controls.autoRotateSpeed=0.5
+    requestAnimationFrame(this.render); //请求再次执行渲染函数render
   }
-  }
-  lizi = ():void => {
-    let grop:Group=new Group()
-    let directional: DirectionalLight; //平行光
-     // 平行光
-    
-    particles = [];
-    const PI2 = Math.PI * 1;
-    const material = new SpriteMaterial({
-      color: "#6cedfc",
-      // @ts-ignore
-      program: (context:any) => {
-        context.beginPath();
-        context.arc(0, 0, 1, 0, PI2, true);
-        context.fill();
-      },
-    });
-    // material.scale.set(20,20,20)
-    let i = 0;
-    for (let ix = 0; ix < AMOUNTX; ix++) {
-      for (let iy = 0; iy < AMOUNTY; iy++) {
-        particle = particles[i++] = new Sprite(material);
-    
-        particle.position.x = ix * SEPARATION - (AMOUNTX * SEPARATION) / 2;
-        particle.position.z = iy * SEPARATION - (AMOUNTY * SEPARATION) / 2;
-        grop.add(particle);
-      }
-    }
-    grop.position.set(0,-100,0)
-    this.scene.add(grop);
-    directional = new DirectionalLight(0xffffff, 1);
-    // 设置光源的方向：通过光源position属性和目标指向对象的position属性计算
-    // directional.position.set(200, -100, 1000);
-    // 方向光指向对象网格模型mesh2，可以不设置，默认的位置是0,0,0
-    directional.target = grop;
-    this.scene.add(directional);
-    directional.visible = true;
-    // return grop
-  };
+
   // 渲染函数
   render = () => {
+    // console.log(console.log(time))
     requestAnimationFrame(this.render); //请求再次执行渲染函数render
-    this.renderer.render(this.scene, this.camera);//执行渲染操作
-    if(this.isParticle){
-      let i = 0;
-    for (let ix = 0; ix < AMOUNTX; ix++) {
-      for (let iy = 0; iy < AMOUNTY; iy++) {
-        particle = particles[i++];
-        particle.position.y =
-          Math.sin((ix + count) * 0.3) * 50 +
-          Math.sin((iy + count) * 0.5) * 50;
-        particle.scale.x = particle.scale.y =
-          (Math.sin((ix + count) * 0.3) + 1) * 2 +
-          (Math.sin((iy + count) * 0.5) + 1) * 2;
-      }
-    }
-    count += 0.1;
-  }
-    // this.controls.update()
+    // console.log("我渲染了")
+    this.controls.update()
+    this.renderer.render(this.scene, this.camera);//执行渲染操
   }
   createControls = () => {
     // 监听浏览器窗口的变化
