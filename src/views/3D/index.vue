@@ -151,8 +151,8 @@ export default defineComponent({
 </script>
 <style lang="less" scoped>
 #map3 {
-  width: 60%;
-  height: 60%;
+  width: 100%;
+  height: 100%;
   background: #212b38;
 
   position: relative;

@@ -3,12 +3,16 @@ import vue from '@vitejs/plugin-vue'
 import styleImport from 'vite-plugin-style-import';
 import visualizer from 'rollup-plugin-visualizer';
 import { terser } from "rollup-plugin-terser";
+import vueJsx from '@vitejs/plugin-vue-jsx'
+
 
 import path from 'path';
 // 打包插件
 const plugins=[ 
   vue(),
-  
+  vueJsx({
+    // options are passed on to @vue/babel-plugin-jsx
+  }),
   styleImport({
     libs: [{
       libraryName: 'ant-design-vue',

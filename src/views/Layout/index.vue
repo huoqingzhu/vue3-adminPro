@@ -116,7 +116,6 @@ export default defineComponent({
     [Drawer.name]: Drawer,
   },
   setup() {
-    setRem();
     const detection = () => {
       setRem();
       if (document.body.clientWidth < 1025) {
@@ -129,7 +128,6 @@ export default defineComponent({
       window.removeEventListener("resize", detection);
     });
     onMounted(() => {
-      detection();
       // 观察主题的变化
       watch(
         () => config.mode,
@@ -145,8 +143,10 @@ export default defineComponent({
         },
         { immediate: true }
       );
+      detection();
+      window.addEventListener("resize", detection);
     });
-    window.addEventListener("resize", detection);
+
     let Storage;
     if (localStorage.getItem("confing")) {
       Storage = JSON.parse(localStorage.getItem("confing") as string);
@@ -171,6 +171,7 @@ export default defineComponent({
     const mode = computed(() => {
       return (value: string) => (config.mode === value ? true : false);
     });
+
     const header = reactive({
       width: "calc(100vw - 200px)",
       height: "46px",
@@ -202,7 +203,6 @@ export default defineComponent({
         if (config.theme === "dark") {
           header.bg = "#041527";
         }
-        console.log(nav);
       } else {
         header.width = "calc(100vw - 200px)";
         nav.width = "200px";
@@ -233,13 +233,13 @@ export default defineComponent({
     };
     // 切换移动端
     const Mobile = () => {
+      console.log("我执行了");
       header.show = false;
       config.pc = false;
       nav.logo = "#1890ff";
       header.height = "46px";
       nav.show = false;
     };
-
     return { config, visible, state, change, theme, mode, header, nav };
   },
 });
@@ -250,6 +250,7 @@ export default defineComponent({
   width: 100vw;
   height: 100vh;
   position: relative;
+  overflow: hidden;
 }
 .nav {
   position: absolute;
@@ -291,6 +292,7 @@ export default defineComponent({
   height: calc(100% - 46px);
   margin-left: v-bind("header.ml");
   position: relative;
+  overflow: auto;
   .affix {
     width: 46px;
     height: 36px;

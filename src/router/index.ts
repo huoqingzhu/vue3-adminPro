@@ -71,6 +71,26 @@ const routes: Array<RouteRecordRaw> = [
           iocn: "AppstoreOutlined",
         },
         component: () => import("../views/3D/index.vue"),
+      },
+      {
+        path: "/animation",
+        name: "动画",
+        meta: {
+          title: "动画",
+          keepAlive: true,
+          iocn: "AppstoreOutlined",
+        },
+        component: () => import("../views/Animation/index.vue"),
+      },
+      {
+        path: "/grid",
+        name: "grid布局",
+        meta: {
+          title: "grid",
+          keepAlive: true,
+          iocn: "AppstoreOutlined",
+        },
+        component: () => import("../views/Animation/grid"),
       }
     ]
   },
