@@ -39,6 +39,16 @@ const routes: Array<RouteRecordRaw> = [
               iocn: "AppstoreOutlined",
             },
             component: () => import("../views/dashboard/workplace.vue"),
+          },
+          {
+            path: "/dashboard/monitor",
+            name: "监控页",
+            meta: {
+              title: "监控台",
+              keepAlive: true,
+              iocn: "AppstoreOutlined",
+            },
+            component: () => import("../views/dashboard/monitor.vue"),
           }
         ]
       },

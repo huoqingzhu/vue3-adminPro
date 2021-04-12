@@ -28,7 +28,7 @@ watch(
 // 初始化map
 function init() {
   let container: any = document.getElementById("map2");
-  map = new Three(container, true, true, false);
+  map = new Three(container, true, true);
   map.scene.add(spriteGrop);
   map.init();
   for (let i = 0; i < 10; i++) {

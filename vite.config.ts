@@ -10,9 +10,7 @@ import path from 'path';
 // 打包插件
 const plugins=[ 
   vue(),
-  vueJsx({
-    // options are passed on to @vue/babel-plugin-jsx
-  }),
+  vueJsx(),
   styleImport({
     libs: [{
       libraryName: 'ant-design-vue',

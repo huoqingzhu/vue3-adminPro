@@ -8,31 +8,24 @@
       <input type="password" placeholder="请输入密码" />
       <div class="button center" @click="goMain">登录</div>
     </div>
-    <div id="map"></div>
+    <iframe lang="zh" src="http://xiaohuo.online/Wave/" id="map"></iframe>
   </div>
 </template>
 <script lang="ts">
-import Map from "../../utils/map";
 import { defineComponent, onMounted } from "vue";
 import { useRouter } from "vue-router";
 export default defineComponent({
   name: "login",
   setup() {
     // 初始化 Map
-    function init() {
-      let container: any = document.getElementById("map");
-      let map = new Map(container, true, true, true);
-      map.init();
-    }
+
     const router = useRouter();
     const goMain = () => {
       router.push("/dashboard/analysis");
       let node: any = document.getElementById("body");
       node.style.backgroundColor = "#fff";
     };
-    onMounted(() => {
-      init();
-    });
+    onMounted(() => {});
     return { goMain };
   },
 });
@@ -50,6 +43,7 @@ export default defineComponent({
   height: 100%;
   background-color: #000;
   background-image: radial-gradient(circle, rgb(3, 3, 63), rgb(1, 6, 24), #000);
+  border: none;
   // background: url("https://static.zhihu.com/heifetz/assets/sign_bg.db29b0fb.png");
 }
 .frame {
